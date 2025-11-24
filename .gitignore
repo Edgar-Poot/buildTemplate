@@ -1,0 +1,57 @@
+#Todo lo que se ignora se puede consultar el porque en la siguiente página
+# https://kaykobadreza.com/blog/ultimate-gitignore-file-for-your-django-project/
+
+# --- Django ---
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+
+# --- Python ---
+*.py[cod]
+*$py.class
+
+# --- Packaging ---
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# --- Pip ---
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- Tests ---
+htmlcov/
+.coverage
+.coverage.*
+.tox/
+.pytest_cache/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Environments ---
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# --- IDEs ---
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+.idea/
+.sublime-project
+.sublime-workspace
+
+# --- Misc ---
+.DS_Store
