@@ -12,6 +12,7 @@ pylint-django = "*"
 pylint-celery = "*"
 matplotlib = "*"
 scikit-learn = "*"
+pandas = "*"
 
 [dev-packages]
 

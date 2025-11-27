@@ -1,0 +1,91 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Predicción de Precios{% endblock %}
+
+{% block content %}
+<main role="main">
+  <div class="container">
+    <h2 class="mt-3 mb-4">Predicción de Precios con Regresión Lineal</h2>
+
+    <form method="POST" class="mb-4">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Ingresa un Área:</label>
+        <input type="number" class="form-control w-50" name="area" required>
+      </div>
+      <button class="btn btn-primary">Calcular</button>
+    </form>
+
+    <canvas id="grafica" width="400" height="200"></canvas>
+
+    {% if area_usuario %}
+    <hr class="mt-4">
+    <h4>Resultados</h4>
+    <p><strong>Área ingresada:</strong> {{ area_usuario }}</p>
+    <p><strong>Precio estimado:</strong> ${{ prediccion }}</p>
+    {% endif %}
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const datosX = {{ X|safe }};
+  const datosY = {{ y|safe }};
+
+  // Punto del usuario
+  const areaUsuario = {{ area_usuario|default:"null"|safe }};
+  const prediccion = {{ prediccion|default:"null"|safe }};
+
+  // Dataset del usuario (solo si ingresó un valor)
+  let datosUsuarioX = [];
+  let datosUsuarioY = [];
+
+  if (areaUsuario !== null && prediccion !== null) {
+      datosUsuarioX = [areaUsuario];
+      datosUsuarioY = [prediccion];
+  }
+
+  const ctx = document.getElementById('grafica').getContext('2d');
+
+  new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: datosX,
+          datasets: [
+              {
+                  label: 'Datos Históricos',
+                  data: datosY,
+                  borderWidth: 2,
+                  borderColor: 'blue',
+                  backgroundColor: 'rgba(0,0,255,0.2)',
+                  tension: 0.3,
+                  fill: false
+              },
+              {
+                  label: 'Predicción Usuario',
+                  data: datosUsuarioY,
+                  borderWidth: 3,
+                  borderColor: 'red',
+                  backgroundColor: 'rgba(255,0,0,0.3)',
+                  pointRadius: 6,
+                  tension: 0,
+                  fill: false
+              }
+          ]
+      },
+      options: {
+          responsive: true,
+          scales: {
+              y: {
+                  beginAtZero: false
+              }
+          }
+      }
+  });
+</script>
+
+
+
+{% endblock %}
